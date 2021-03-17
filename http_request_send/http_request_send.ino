@@ -23,33 +23,33 @@ void setup()
   updateSerial();
   mySerial.println("AT+CREG?"); //Check whether it has registered in the network
   updateSerial();
-  mySerial.println("AT+SAPBR=3,1,Contype,GPRS");
+  mySerial.println("AT+SAPBR=3,1,Contype,GPRS");//Setting connection Mode to gprs
   updateSerial();
-  mySerial.println("AT+SAPBR=3,1,APN,dialogbb");
+  mySerial.println("AT+SAPBR=3,1,APN,dialogbb");// add the apn(acess point name)
   updateSerial();
-  mySerial.println("AT+SAPBR=1,1");
+  mySerial.println("AT+SAPBR=1,1");//initialize IP adress
   updateSerial();
-  mySerial.println("AT+SAPBR=2,1");
+  mySerial.println("AT+SAPBR=2,1");//Show the IP
   updateSerial();
   delay(1000);
-  mySerial.println("AT+HTTPTERM");
+  mySerial.println("AT+HTTPTERM");//close current HTTP connections
   updateSerial();
-  mySerial.println("AT+HTTPINIT");
+  mySerial.println("AT+HTTPINIT");//initialize HTTP connection
   updateSerial();
-  mySerial.println("AT+HTTPPARA=CID,1");
+  mySerial.println("AT+HTTPPARA=CID,1");//Default code
   updateSerial();
-  mySerial.println("AT+HTTPPARA=URL,http://124.43.34.36/hp1/s/e.php?i=a2341b871&d=18032021&c=156");
+  mySerial.println("AT+HTTPPARA=URL,http://124.43.34.36/hp1/s/e.php?i=a2341b871&d=18032021&c=156");//url
   updateSerial();
-  mySerial.println("AT+HTTPPARA=CONTENT,application/x-www-form-urlencoded");
+  mySerial.println("AT+HTTPPARA=CONTENT,application/x-www-form-urlencoded");//Encoding the URL
   updateSerial();
-  mySerial.println("AT+HTTPACTION=1");
+  mySerial.println("AT+HTTPACTION=1");//Sending a set request
   updateSerial();
-  mySerial.println("AT+HTTPREAD");
+  mySerial.println("AT+HTTPREAD");//Read Http retun value
   updateSerial();
-  mySerial.println("AT+HTTPTERM");
+  mySerial.println("AT+HTTPTERM");//Terminate HTTP connection
   delay(1000);
   updateSerial();
-  mySerial.println("AT+SAPBR=0,1");
+  mySerial.println("AT+SAPBR=0,1");//stop net connction mode(Closing IP)
   updateSerial();
 }
 
