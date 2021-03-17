@@ -1,3 +1,4 @@
+
 #include <SoftwareSerial.h>
 
 //Create software serial object to communicate with SIM800L
@@ -7,7 +8,7 @@ void setup()
 {
   //Begin serial communication with Arduino and Arduino IDE (Serial Monitor)
   Serial.begin(9600);
-  
+
   //Begin serial communication with Arduino and SIM800L
   mySerial.begin(9600);
 
@@ -33,7 +34,7 @@ void setup()
   delay(1000);
   mySerial.println("AT+HTTPTERM");
   updateSerial();
-  mySerial.println("AT+HTTPINIT"); 
+  mySerial.println("AT+HTTPINIT");
   updateSerial();
   mySerial.println("AT+HTTPPARA=CID,1");
   updateSerial();
@@ -60,12 +61,12 @@ void loop()
 void updateSerial()
 {
   delay(500);
-  while (Serial.available()) 
+  while (Serial.available())
   {
-    mySerial.write(Serial.read());//Forward what Serial received to Software Serial Port
+    mySerial.write(Serial.read()); //Forward what Serial received to Software Serial Port
   }
-  while(mySerial.available()) 
+  while (mySerial.available())
   {
-    Serial.write(mySerial.read());//Forward what Software Serial received to Serial Port
+    Serial.write(mySerial.read()); //Forward what Software Serial received to Serial Port
   }
 }
