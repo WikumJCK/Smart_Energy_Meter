@@ -21,7 +21,7 @@ DS1307 contains 24C32 EEPROM of 32bytes(4kB)
 RTC_DS1307 rtc; //making RTC object
 
 //Making 2D array and store days
-char daysOftheWeek[7][12] = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"}
+char daysOfTheWeek[7][12] = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
 
 void setup(){
   Serial.begin(9600);
@@ -29,7 +29,7 @@ void setup(){
 
 //Check whether RTC is working 
   if(!rtc.begin()){
-    Serial.println("RTC not connected!")
+    Serial.println("RTC not connected!");
     while(1);
   }
 
@@ -47,7 +47,8 @@ void setup(){
 
 void loop(){
   DateTime now = rtc.now();
-  PrintDateTime()
+  PrintDateTime();
+  delay(1000);
 
 
 }
