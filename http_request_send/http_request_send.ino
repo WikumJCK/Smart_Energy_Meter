@@ -38,7 +38,7 @@ void setup()
   updateSerial();
   mySerial.println("AT+HTTPPARA=CID,1");//Default code
   updateSerial();
-  mySerial.println("AT+HTTPPARA=URL,http://124.43.34.36/hp1/s/e.php?i=a2341b871&d=18032021&c=156");//url
+  mySerial.println("AT+HTTPPARA=URL,http://124.43.42.225/hp1/s/e.php?i=111111&d=20210320&c=34.5");//url
   updateSerial();
   mySerial.println("AT+HTTPPARA=CONTENT,application/x-www-form-urlencoded");//Encoding the URL
   updateSerial();
