@@ -1,13 +1,26 @@
+#include <SSD1306Ascii.h>
+#include <SSD1306AsciiAvrI2c.h>
+#include <SSD1306AsciiSoftSpi.h>
+#include <SSD1306AsciiSpi.h>
+#include <SSD1306AsciiWire.h>
+#include <SSD1306init.h>
+
 //Importing all Libraries
 //For OLED
 #include <SPI.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
+//#include <Adafruit_SSD1306.h>
+
+
 
 //For RTC
 #include <Wire.h>
 #include "RTClib.h"
+
+//For SD card
+#include <SD.h>
+const int CSpin = 10;//Chip select pin of SD card
 
 Adafruit_SSD1306 display(-1);
 
@@ -18,8 +31,9 @@ char daysOfTheWeek[7][12] = {"Sun","Mon","Tue","Wed","Thur","Fri","Sat"};
 
 int Vpin =A0;
 int Val = 0;
-float Volt =0 ,I = 0, Power = 0,E = 0;
-float R = 10;
+float Volt =0 ,I = 0;
+double Power = 0,E = 0;
+float R = 8.5;
 String Arr[2] = {"",""};
 
 // 'ceylon-electricity-board-logo-80B39CEA11-seeklogo', 128x64px
@@ -98,7 +112,7 @@ void setup() {
 
   //Initializing Display
   // initialize with the I2C addr 0x3C
-	display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  
+	display.begin(SSD1306_SWITCHCAPVCC, 0x78);  
 
 	// Clear the buffer.
 	display.clearDisplay();
@@ -109,6 +123,25 @@ void setup() {
   delay(5000);
   display.clearDisplay();
   display.display();
+
+  //SD initializing
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0,0);
+  
+  if(!SD.begin(CSpin))
+ {
+  Serial.println("SD Card Error");
+  display.println("SD Card Error");
+  display.display();
+  delay(1000);
+  while(true);
+ }
+ Serial.println("SD Card found");
+ display.println("SD Card found...");
+ display.display();
+ delay(1000);
+ display.clearDisplay();
 }
 
 void loop() {
@@ -117,7 +150,7 @@ void loop() {
 
 }
 
-void getDate(){
+String getDate(){
    String Date = "Date:";
    String Time = "Time:";
     DateTime now = rtc.now();
@@ -137,6 +170,7 @@ void getDate(){
     Serial.println(Date);
     Serial.println(Time);
     printDateTime(Date,Time);
+    return String(Date);
 }
 
 void printDateTime(String Date,String Time){
@@ -158,11 +192,14 @@ float getPandE(){
   delay(10);
   }
   display.clearDisplay();
-  getDate();
+  String date = getDate();
   display.setTextSize(1);
   display.setTextColor(WHITE);
   Arr[0] = "Power : "+String(Power)+" mW ";
-  Arr[1] = "Energy: " +String(E)+" mJ ";
+  Arr[1] = "Energy: " +String(E)+" J ";
+  File dataFile = SD.open("Today.txt",FILE_WRITE);
+  dataFile.println(date+" "+String(E));
+  dataFile.close(); 
   display.setCursor(0,20);
   display.println(Arr[0]);
   display.println(Arr[1]);
