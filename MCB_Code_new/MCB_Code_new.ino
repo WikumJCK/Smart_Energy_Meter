@@ -67,8 +67,9 @@ void setup() {
  oled.clear();
 }
 
-void loop() {
-  // put your main code here, to run repeatedly
+void loop() 
+{
+
   getPandE();
 
 }
@@ -79,13 +80,13 @@ String getDate(){
    String d ="";
     DateTime now = rtc.now();
     Date+=String(now.year(), DEC);
-    d+=String(now.year(), DEC);
+    d+=String(now.year(), DEC)+"_";
     Date+="/";
     Date+=String(now.month(), DEC);
-    d+=String(now.month(), DEC);
+    d+=String(now.month(), DEC)+"_";
     Date+="/";
     Date+=String(now.day(), DEC);
-    d+=String(now.day(), DEC);
+    d+=String(now.day(), DEC)+"_";
     Date+=String(" (");
     Date+=String(daysOfTheWeek[now.dayOfTheWeek()]);
     Date+=String(") ");
@@ -94,13 +95,17 @@ String getDate(){
     Time+=String(now.minute(), DEC);
     Time+=String(':');
     Time+=String(now.second(), DEC);
-    Serial.println(Date);
-    Serial.println(Time);
+    //Serial.println(Date);
+    //Serial.println(Time);
+    if(String(now.hour(),DEC)=="0"){
+      LogAndSendData();
+    }
     printDateTime(Date,Time);
     return d;
 }
 
-void printDateTime(String Date,String Time){
+void printDateTime(String Date,String Time)
+{
 oled.println(Date);
 oled.println("");
 }
@@ -118,11 +123,16 @@ float getPandE(){
   String date = getDate();
   Arr[0] = "Power : "+String(Power)+" mW ";
   Arr[1] = "Energy: " +String(E)+" J ";
-  File dataFile = SD.open(date+".txt",FILE_WRITE);
+  File dataFile = SD.open("today.txt",FILE_WRITE);
   dataFile.println(String(E));
   dataFile.close(); 
   oled.println(Arr[0]);
   oled.println(Arr[1]);
 
+  
+}
+
+void LogAndSendData()
+{
   
 }
